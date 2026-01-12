@@ -1,0 +1,18 @@
+[project]
+name = "marketing-agent-web"
+version = "0.1.0"
+description = "The project provides a web_crawler module with a multi-agent system for searching the Web for pages to advertise a product on. It also comes with an example config file with the description of one of Software Mansion's products — React Native Executorch. Any tool for searching the web can be used by the system, here it uses an example tool based on DuckDuckGo."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "bs4>=0.0.2",
+    "ddgs>=9.9.1",
+    "dotenv>=0.9.9",
+    "langchain>=1.0.8",
+    "langchain-community>=0.4.1",
+    "langchain-core>=1.0.7",
+    "langchain-openai>=1.0.3",
+    "langgraph>=1.0.3",
+    "more-itertools>=10.8.0",
+    "requests>=2.32.5",
+]

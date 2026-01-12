@@ -1,0 +1,33 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.python-version
+
+# Virtual environments
+.venv
+
+*.model
+
+*.npy
+
+.vscode/
+
+*.json
+
+.DS_Store
+
+*_test.py
+
+tests/
+
+.env
+
+*.pkl
+
+*.log
+
+uv.lock
