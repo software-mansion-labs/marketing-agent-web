@@ -1,10 +1,10 @@
-from langchain_core.messages import SystemMessage, HumanMessage
-from langgraph.graph import StateGraph, START, END
+from langchain_core.messages import HumanMessage, SystemMessage
+from langgraph.graph import END, START, StateGraph
 from langgraph.graph.state import CompiledStateGraph
 
-from web_crawler.agents.output_structures import Critique, WebsiteCritique, Website
 from web_crawler.agents.base_agent import BaseAgent
 from web_crawler.agents.critic import CriticAgentNode, CriticAgentState
+from web_crawler.agents.output_structures import Critique, Website, WebsiteCritique
 
 
 class CriticAgent(BaseAgent[CriticAgentState]):

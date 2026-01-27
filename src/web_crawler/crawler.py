@@ -5,7 +5,6 @@ from langchain.tools import BaseTool
 from web_crawler.agents import CriticAgent, SearchAgent, SelectorAgent
 from web_crawler.agents.output_structures import WebsiteChoice
 
-
 logger = logging.getLogger(__name__)
 
 

@@ -1,10 +1,10 @@
-from langchain_core.messages import SystemMessage, HumanMessage
-from langgraph.graph import StateGraph, START, END
+from langchain_core.messages import HumanMessage, SystemMessage
+from langgraph.graph import END, START, StateGraph
 from langgraph.graph.state import CompiledStateGraph
 
 from web_crawler.agents import BaseAgent
-from web_crawler.agents.selector import SelectorAgentNode, SelectorAgentState
 from web_crawler.agents.output_structures import WebsiteChoiceList, WebsiteCritique
+from web_crawler.agents.selector import SelectorAgentNode, SelectorAgentState
 
 
 class SelectorAgent(BaseAgent[SelectorAgentState]):

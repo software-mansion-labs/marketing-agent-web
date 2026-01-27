@@ -3,18 +3,18 @@ import logging
 import requests
 from bs4 import BeautifulSoup
 from langchain.tools import BaseTool
+from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
+from langgraph.graph import END, START, StateGraph
+from langgraph.graph.state import CompiledStateGraph
 from langgraph.prebuilt import ToolNode
 from more_itertools import unique_everseen
-from langgraph.graph import StateGraph, START, END
-from langgraph.graph.state import CompiledStateGraph
-from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 
 from web_crawler.agents.base_agent import BaseAgent
 from web_crawler.agents.critic.agent import CriticAgent
-from web_crawler.agents.search import SearchAgentNode, SearchAgentState
-from web_crawler.agents.selector.agent import SelectorAgent
 from web_crawler.agents.output_structures import Website, WebsiteChoice
-from web_crawler.agents.search.output_structures import WebsitesToLoad, LoopDecision
+from web_crawler.agents.search import SearchAgentNode, SearchAgentState
+from web_crawler.agents.search.output_structures import LoopDecision, WebsitesToLoad
+from web_crawler.agents.selector.agent import SelectorAgent
 
 logger = logging.getLogger(__name__)
 

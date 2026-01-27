@@ -1,8 +1,8 @@
 from langchain.agents import AgentState
 
 from web_crawler.agents.output_structures import (
-    WebsiteChoiceList,
     Website,
+    WebsiteChoiceList,
     WebsiteCritique,
 )
 from web_crawler.agents.search.output_structures import WebsitesToLoad
