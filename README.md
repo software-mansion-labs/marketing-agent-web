@@ -1,10 +1,10 @@
 # Marketing Agent Web :mag_right:
 
-This package is a LangGraph multi-agent system searching the web for marketing opportunities for a product/company. 
+This package is a LangGraph multi-agent system searching the web for marketing opportunities for a product/company. It is a twin project of [Marketing Agent Api](https://github.com/software-mansion-labs/marketing-agent-api), which uses specified APIs (like Reddit API) instead of a search engine.
 
 ## How to use it
 
-First, you have to describe the thing you want to advertise in `src/config.py`, in `DESCRIPTION_PROMPT` constant. As an example, we provide a description of our product---[Private Mind](https://privatemind.swmansion.com/). You can also control the number of iterations agents run before aggregating the results, or prompts of specific sub-agents.
+First, you have to describe the thing you want to advertise in `src/config.py`, in `DESCRIPTION_PROMPT` constant. As an example, we provide a description of our product—[React Native Executorch](https://docs.swmansion.com/react-native-executorch). You can also control the number of iterations agents run before aggregating the results, or prompts of specific sub-agents.
 
 Once that's done, you create a `Crawler` object, as shown in `src/main.py`. The crawler is all set and you can run the search. It returns a list of websites suitable for advertisement, along with justifications of its picks.
 

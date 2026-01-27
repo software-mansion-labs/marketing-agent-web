@@ -11,16 +11,15 @@ from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 
 from web_crawler.agents.base_agent import BaseAgent
 from web_crawler.agents.critic.agent import CriticAgent
-from web_crawler.agents.search.node import SearchAgentNode
+from web_crawler.agents.search import SearchAgentNode, SearchAgentState
 from web_crawler.agents.selector.agent import SelectorAgent
-from web_crawler.agents.search.state import SearchAgentState
 from web_crawler.agents.output_structures import Website, WebsiteChoice
 from web_crawler.agents.search.output_structures import WebsitesToLoad, LoopDecision
 
 logger = logging.getLogger(__name__)
 
 
-class SearchAgent(BaseAgent):
+class SearchAgent(BaseAgent[SearchAgentState]):
     """AI agent meant to search the Web for marketing purposes."""
 
     def __init__(
@@ -33,30 +32,30 @@ class SearchAgent(BaseAgent):
         select_page_prompt: str,
         decide_loop_prompt: str,
         model: str = "openai:gpt-4o",
-        search_loop_min_iterations: int = 2,
-        search_loop_max_iterations: int = 5,
+        min_iterations: int = 2,
+        max_iterations: int = 5,
     ) -> None:
         """Initializes the Agent's workflow graph and LLM model.
 
         Args:
             search_tool (Tool): tool to use to search for websites.
             model (str, optional): LLM model to use as foundation for agents. Defaults to "openai:gpt-4o".
-            critic (CriticAgent): agent that critiques post candidates.
+            critic (CriticAgent): agent that critiques website candidates.
             selector (SelectorAgent): agent that selects best candidates.
             description_prompt (str): description of the product.
             search_prompt (str): prompt used to search for websites.
             select_page_prompt (str): prompt used to select pages to visit.
             decide_loop_prompt (str): prompt used to decide on loop.
-            search_loop_min_iterations (int, optional): minimum number of iterations of the search loop. Defaults to 2.
-            search_loop_max_iterations (int, optional): maximum number of iterations of the search loop. Defaults to 5.
+            min_iterations (int, optional): minimum number of iterations of the search loop. Defaults to 2.
+            max_iterations (int, optional): maximum number of iterations of the search loop. Defaults to 5.
         """
-        assert search_loop_min_iterations <= search_loop_max_iterations, (
-            "search_loop_min_iterations must be smaller than search_loop_max_iterations"
-        )
+        assert (
+            min_iterations <= max_iterations
+        ), "min_iterations must be smaller than max_iterations"
         super().__init__(model)
         self._search_tool = search_tool
-        self._search_loop_min_iterations = search_loop_min_iterations
-        self._search_loop_max_iterations = search_loop_max_iterations
+        self._min_iterations = min_iterations
+        self._max_iterations = max_iterations
         self._critic = critic
         self._selector = selector
         self._description_prompt = description_prompt
@@ -273,10 +272,10 @@ class SearchAgent(BaseAgent):
         Returns:
             SearchAgentNode: next node to go to.
         """
-        if state["search_loop_iteration"] == self._search_loop_max_iterations:
+        if state["search_loop_iteration"] == self._max_iterations:
             return SearchAgentNode.SUMMARY
 
-        if state["search_loop_iteration"] < self._search_loop_min_iterations:
+        if state["search_loop_iteration"] < self._min_iterations:
             return SearchAgentNode.SEARCH
 
         prompt = self._decide_loop_prompt

@@ -1,21 +1,13 @@
-from langchain_core.messages import (
-    SystemMessage,
-    HumanMessage,
-)
+from langchain_core.messages import SystemMessage, HumanMessage
 from langgraph.graph import StateGraph, START, END
 from langgraph.graph.state import CompiledStateGraph
 
-from web_crawler.agents.output_structures import (
-    Critique,
-    WebsiteCritique,
-    Website,
-)
+from web_crawler.agents.output_structures import Critique, WebsiteCritique, Website
 from web_crawler.agents.base_agent import BaseAgent
-from web_crawler.agents.critic.node import CriticAgentNode
-from web_crawler.agents.critic.state import CriticAgentState
+from web_crawler.agents.critic import CriticAgentNode, CriticAgentState
 
 
-class CriticAgent(BaseAgent):
+class CriticAgent(BaseAgent[CriticAgentState]):
     """AI agent meant to critique suitability of websites for a given task."""
 
     def __init__(

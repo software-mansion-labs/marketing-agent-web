@@ -2,9 +2,7 @@ import logging
 
 from langchain.tools import BaseTool
 
-from web_crawler.agents.search.agent import SearchAgent
-from web_crawler.agents.critic.agent import CriticAgent
-from web_crawler.agents.selector.agent import SelectorAgent
+from web_crawler.agents import CriticAgent, SearchAgent, SelectorAgent
 from web_crawler.agents.output_structures import WebsiteChoice
 
 
@@ -25,8 +23,8 @@ class Crawler:
         selector_introduction_prompt: str,
         iterations: int = 1,
         model: str = "openai:gpt-4o",
-        search_loop_min_iterations: int = 2,
-        search_loop_max_iterations: int = 5,
+        search_min_iterations: int = 2,
+        search_max_iterations: int = 5,
     ) -> None:
         """Initializes the agents to use.
 
@@ -40,8 +38,8 @@ class Crawler:
             selector_introduction_prompt (str): prompt introducing the role of the Selector agent.
             iterations (int, optional): number of times to run the entire agentic system. Defaults to 1.
             model (str, optional): foundation model. Defaults to "openai:gpt-4o".
-            search_loop_min_iterations (int, optional): min number of iterations in a single run of the Search agent. Defaults to 2.
-            search_loop_max_iterations (int, optional): max number of iterations in a single run of the Search agent. Defaults to 5.
+            search_min_iterations (int, optional): min number of iterations in a single run of the Search agent. Defaults to 2.
+            search_max_iterations (int, optional): max number of iterations in a single run of the Search agent. Defaults to 5.
         """
 
         critic = CriticAgent(
@@ -64,8 +62,8 @@ class Crawler:
             select_page_prompt=search_select_page_prompt,
             decide_loop_prompt=search_decide_loop_prompt,
             model=model,
-            search_loop_min_iterations=search_loop_min_iterations,
-            search_loop_max_iterations=search_loop_max_iterations,
+            min_iterations=search_min_iterations,
+            max_iterations=search_max_iterations,
         )
         self._iterations = iterations
 
@@ -78,6 +76,8 @@ class Crawler:
 
         result = self._agent.run(self._iterations)
 
-        logger.info(f"All agents have completed their runs, found {len(result)} posts.")
+        logger.info(
+            f"All agents have completed their runs, found {len(result)} websites."
+        )
 
         return result

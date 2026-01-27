@@ -1,17 +1,13 @@
-from langchain_core.messages import (
-    SystemMessage,
-    HumanMessage,
-)
+from langchain_core.messages import SystemMessage, HumanMessage
 from langgraph.graph import StateGraph, START, END
 from langgraph.graph.state import CompiledStateGraph
 
-from web_crawler.agents.base_agent import BaseAgent
-from web_crawler.agents.selector.node import SelectorAgentNode
-from web_crawler.agents.selector.state import SelectorAgentState
+from web_crawler.agents import BaseAgent
+from web_crawler.agents.selector import SelectorAgentNode, SelectorAgentState
 from web_crawler.agents.output_structures import WebsiteChoiceList, WebsiteCritique
 
 
-class SelectorAgent(BaseAgent):
+class SelectorAgent(BaseAgent[SelectorAgentState]):
     """AI agent meant to pick the best websites for a task based on their critiques."""
 
     def __init__(
@@ -85,7 +81,7 @@ class SelectorAgent(BaseAgent):
         Returns:
             SelectorAgentState: update to the state of the Agent.
         """
-        return {"messages": SystemMessage(self._description_prompt)}
+        return {"messages": [SystemMessage(self._description_prompt)]}
 
     def _introduce(self, _: SelectorAgentState) -> SelectorAgentState:
         """Introduces the LLM to its task.
@@ -93,7 +89,7 @@ class SelectorAgent(BaseAgent):
         Returns:
             SelectorAgentState: update to the state of the Agent.
         """
-        return {"messages": SystemMessage(self._introduction_prompt)}
+        return {"messages": [SystemMessage(self._introduction_prompt)]}
 
     def _select(self, state: SelectorAgentState) -> SelectorAgentState:
         """Selects the best websites.

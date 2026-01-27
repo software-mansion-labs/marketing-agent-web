@@ -3,7 +3,7 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 from web_crawler.agents.output_structures import WebsiteHeader
-from web_crawler.agents.search.node import SearchAgentNode
+from web_crawler.agents.search import SearchAgentNode
 
 
 class WebsitesToLoad(BaseModel):

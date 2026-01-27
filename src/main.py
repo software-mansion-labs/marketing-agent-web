@@ -3,10 +3,8 @@ import logging
 from dotenv import load_dotenv
 
 import config
-from tools.ddg_search import ddg_search
+from tools import ddg_search
 from web_crawler.crawler import Crawler
-
-load_dotenv()
 
 logging.getLogger("primp").setLevel(logging.WARNING)
 logging.getLogger("httpx").setLevel(logging.WARNING)
@@ -21,6 +19,8 @@ logging.basicConfig(
 
 def main():
     """Example use of the Crawler"""
+    load_dotenv()
+
     crawler = Crawler(
         search_tool=ddg_search,
         description_prompt=config.DESCRIPTION_PROMPT,
@@ -31,14 +31,16 @@ def main():
         selector_introduction_prompt=config.SELECTOR_INTRODUCTION_PROMPT,
         iterations=config.ITERATIONS,
         model=config.MODEL,
-        search_loop_min_iterations=config.SEARCH_SEARCH_LOOP_MIN_ITERATIONS,
-        search_loop_max_iterations=config.SEARCH_SEARCH_LOOP_MAX_ITERATIONS,
+        search_min_iterations=config.AGENT_MIN_ITERATIONS,
+        search_max_iterations=config.AGENT_MAX_ITERATIONS,
     )
 
     found_websites = crawler.run()
 
     for website in found_websites:
-        print(website)
+        print(
+            f"LINK: {website.website.link}\nJUSTIFICATION: {website.justification}\n\n"
+        )
 
 
 if __name__ == "__main__":
