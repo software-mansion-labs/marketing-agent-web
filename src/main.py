@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 import config
 from tools import ddg_search
-from web_crawler.crawler import Crawler
+from web_crawler import Crawler
 
 logging.getLogger("primp").setLevel(logging.WARNING)
 logging.getLogger("httpx").setLevel(logging.WARNING)

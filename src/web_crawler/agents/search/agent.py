@@ -49,9 +49,9 @@ class SearchAgent(BaseAgent[SearchAgentState]):
             min_iterations (int, optional): minimum number of iterations of the search loop. Defaults to 2.
             max_iterations (int, optional): maximum number of iterations of the search loop. Defaults to 5.
         """
-        assert (
-            min_iterations <= max_iterations
-        ), "min_iterations must be smaller than max_iterations"
+        assert min_iterations <= max_iterations, (
+            "min_iterations must be smaller than max_iterations"
+        )
         super().__init__(model)
         self._search_tool = search_tool
         self._min_iterations = min_iterations
